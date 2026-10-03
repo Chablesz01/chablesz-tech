@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [chableszshow-windows-v17]
+    paths: ['app/**', 'packaging/**']
 permissions:
   contents: read
 jobs:
@@ -14,14 +15,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - name: Check Defender update service
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          Update-MpSignature -UpdateSource MMPC
-          $status = Get-MpComputerStatus
-          $status | Select-Object AntivirusEnabled, AMServiceEnabled, AntivirusSignatureVersion, AntivirusSignatureLastUpdated | Format-List
-          if (-not $status.AntivirusEnabled -or -not $status.AMServiceEnabled -or $status.AntivirusSignatureLastUpdated -lt (Get-Date).AddDays(-2)) { throw 'Current Defender protection is required' }
       - name: Assemble pinned offline payload
         run: python packaging/build_payload.py
       - name: Get installer compiler

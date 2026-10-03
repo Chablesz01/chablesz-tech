@@ -1,0 +1,53 @@
+name: Publish checked ChableszShow v17 installer
+on:
+  push:
+    branches: [chableszshow-windows-v17]
+    paths: ['.github/workflows/publish-checked-v17.yml']
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Verify successful Windows run
+        run: |
+          gh api repos/Chablesz01/chablesz-tech/actions/runs/37139600687 > run.json
+          python - <<'PY'
+          import json
+          run=json.load(open('run.json'))
+          assert run['conclusion']=='success'
+          assert run['head_sha']=='d5e94749c9ad89d2868edee673fce8764d4efde8'
+          PY
+      - name: Retrieve and verify checked installer
+        run: |
+          gh run download 37139600687 --repo Chablesz01/chablesz-tech --name ChableszShow-Voice-Camera-v17-checked-build --dir release-assets
+          python - <<'PY'
+          import hashlib,json,pathlib,shutil
+          root=pathlib.Path('release-assets')
+          exe=root/'ChableszShow-Voice-Camera-v17.exe'
+          report=json.loads((root/'validation/release-checks.json').read_text(encoding='utf-8-sig'))
+          expected='170c4694bf0b0408ff282a78b86ad6687c54edcd40223ea84b7e62c1ee6f866d'
+          assert report['status']=='automated_checks_passed'
+          assert report['installer_sha256'].lower()==expected
+          assert hashlib.sha256(exe.read_bytes()).hexdigest()==expected
+          shutil.copy2(root/'validation/release-checks.json',root/'release-checks.json')
+          (root/'SHA256SUMS.txt').write_text(expected+'  '+exe.name+'\n')
+          PY
+      - name: Publish Windows installer
+        run: |
+          cat > release-notes.md <<'EOF'
+          ChableszShow Voice & Camera v17 includes offline English voice reference search and a separate camera preview with live switching.
+          
+          This exact installer passed Microsoft Defender scans, bundled publisher-signature and integrity checks, Windows startup, local voice-model loading, clean installation, installed startup, and uninstallation on GitHub's Windows Server 2022 runner.
+          
+          Installer is unsigned. A clean scan is not a guarantee against all malware. Physical HDMI, microphone, phone-camera, PowerPoint, and YouTube operation still require testing on the user's laptop.
+          
+          Installs separately from earlier ChableszShow editions. Existing data is copied on first launch without replacing original files. Python installation is not required. The installed app does not update just by refreshing.
+          
+          Windows validation: https://github.com/Chablesz01/chablesz-tech/actions/runs/37139600687
+          EOF
+          gh release create chableszshow-v17 release-assets/ChableszShow-Voice-Camera-v17.exe release-assets/release-checks.json release-assets/SHA256SUMS.txt --repo Chablesz01/chablesz-tech --target d5e94749c9ad89d2868edee673fce8764d4efde8 --title "ChableszShow Voice & Camera v17" --notes-file release-notes.md
