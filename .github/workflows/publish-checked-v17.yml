@@ -22,6 +22,13 @@ jobs:
           assert run['conclusion']=='success'
           assert run['head_sha']=='d5e94749c9ad89d2868edee673fce8764d4efde8'
           PY
+          gh api "repos/Chablesz01/chablesz-tech/compare/d5e94749c9ad89d2868edee673fce8764d4efde8...$GITHUB_SHA" > changes.json
+          python - <<'PY'
+          import json
+          diff=json.load(open('changes.json'))
+          assert diff['status']=='ahead'
+          assert all(f['filename'].startswith('.github/workflows/') for f in diff['files'])
+          PY
       - name: Retrieve and verify checked installer
         run: |
           gh run download 37139600687 --repo Chablesz01/chablesz-tech --name ChableszShow-Voice-Camera-v17-checked-build --dir release-assets
@@ -50,4 +57,4 @@ jobs:
           
           Windows validation: https://github.com/Chablesz01/chablesz-tech/actions/runs/37139600687
           EOF
-          gh release create chableszshow-v17 release-assets/ChableszShow-Voice-Camera-v17.exe release-assets/release-checks.json release-assets/SHA256SUMS.txt --repo Chablesz01/chablesz-tech --target d5e94749c9ad89d2868edee673fce8764d4efde8 --title "ChableszShow Voice & Camera v17" --notes-file release-notes.md
+          gh release create chableszshow-v17 release-assets/ChableszShow-Voice-Camera-v17.exe release-assets/release-checks.json release-assets/SHA256SUMS.txt --repo Chablesz01/chablesz-tech --target "$GITHUB_SHA" --title "ChableszShow Voice & Camera v17" --notes-file release-notes.md
