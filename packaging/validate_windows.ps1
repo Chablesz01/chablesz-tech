@@ -16,7 +16,7 @@ try {
     }
     $status=Get-MpComputerStatus
     if(-not $status.AntivirusEnabled -or -not $status.AMServiceEnabled) { throw 'Microsoft Defender is unavailable. Release stays blocked.' }
-    Update-MpSignature
+    Update-MpSignature -UpdateSource MMPC
     $status=Get-MpComputerStatus
     if($status.AntivirusSignatureLastUpdated -lt (Get-Date).AddDays(-2)) { throw 'Defender signatures are stale. Release stays blocked.' }
     $started=Get-Date
