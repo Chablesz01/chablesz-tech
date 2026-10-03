@@ -1,0 +1,22 @@
+{
+  "version": 17,
+  "release_status": "source_and_build_kit_only",
+  "windows_installer_released": false,
+  "previous_zips_preserved": true,
+  "baseline_v16_build_unchanged": true,
+  "automated_tests": {
+    "app_and_feature_tests": 50,
+    "packaging_tests": 3,
+    "completed_in": "Linux"
+  },
+  "offline_recognition": "Recorded Vosk sample recognized with network blocked; actual asynchronous recognition worker and shutdown checked.",
+  "mjpeg": "Actual local HTTP multipart MJPEG stream connected, decoded, displayed and disconnected.",
+  "packaging": "Pinned 23 dependency archive hashes. Offline payload assembly passed without WebView2 prerequisite in local check. Installer recipe syntax checked with dummy payload.",
+  "not_yet_tested": [
+    "Physical microphone and Nigerian accents",
+    "Physical phone camera and USB camera",
+    "Windows installation and Microsoft Defender scan",
+    "HDMI output and Windows audio",
+    "Real phone RTSP feed"
+  ]
+}

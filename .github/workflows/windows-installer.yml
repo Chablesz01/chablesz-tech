@@ -1,0 +1,46 @@
+name: Build and check ChableszShow Windows installer
+on:
+  workflow_dispatch:
+  push:
+    branches: [chableszshow-windows-v17]
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Assemble pinned offline payload
+        run: python packaging/build_payload.py
+      - name: Get installer compiler
+        shell: pwsh
+        run: |
+          choco install nsis --version=3.11 -y --no-progress
+          if ($LASTEXITCODE -ne 0) { throw 'NSIS installation failed' }
+      - name: Compile installer
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force artifacts | Out-Null
+          & 'C:\Program Files (x86)\NSIS\makensis.exe' packaging/installer.nsi
+          if ($LASTEXITCODE -ne 0) { throw 'Installer compilation failed' }
+      - name: Scan and test on Windows
+        shell: pwsh
+        run: ./packaging/validate_windows.ps1 -Payload ./payload -Installer ./artifacts/ChableszShow-Voice-Camera-v17.exe
+      - name: Upload checked build
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ChableszShow-Voice-Camera-v17-checked-build
+          path: artifacts/
+          retention-days: 7
+      - name: Upload diagnostic report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-validation-report
+          path: artifacts/validation/
+          if-no-files-found: ignore

@@ -1,0 +1,61 @@
+ChableszShow v15 Bible text attribution
+
+The bundled KJV.csv contains 31,102 verses in the traditional 66-book canon.
+Text exported without wording changes from pythonbible-kjv 0.0.2 using
+pythonbible 0.15.5. Square brackets marking supplied words in that source
+are retained. No proprietary licensed translation is included.
+
+Additional full Bible text datasets exported without wording changes using
+pythonbible-asv, pythonbible-web, and pythonbible-ylt 0.0.2:
+ASV: 66 books, 31,086 nonempty verses (16 omitted numbered slots).
+WEB: 66 books, 31,102 verses, using its own chapter/verse metadata.
+YLT: 66 books, 31,102 verses.
+Public-domain edition statements:
+https://ebible.org/eng-asv/copyright.htm
+https://ebible.org/eng-web/copr.htm
+https://ebible.org/engylt/copyright.htm
+Source packages: https://pypi.org/project/pythonbible-asv/
+https://pypi.org/project/pythonbible-web/
+https://pypi.org/project/pythonbible-ylt/
+
+Dependencies are installed separately by pip. PySide6/Qt use their LGPL/GPL
+license options; PyMuPDF uses AGPL/commercial options; pywebview uses BSD.
+This source distribution does not redistribute those installed binaries.
+Microsoft Edge WebView2 Runtime is downloaded from Microsoft and governed
+by Microsoft terms.
+
+Source project: https://github.com/avendesora/pythonbible
+Source package: https://pypi.org/project/pythonbible-kjv/
+KJV public-domain statement and UK printed-edition information:
+https://ebible.org/Bible/details.php?id=eng-kjv
+
+The pythonbible source project is distributed under this license:
+
+MIT License
+
+Copyright (c) 2020 Nathan Patton
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+OFFLINE VOICE
+Vosk API 0.3.45 and vosk-model-small-en-us-0.15, Alpha Cephei.
+Model source: https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
+Model license: Apache License 2.0; see VOICE_MODEL_LICENSE.txt.
+Speech recognition runs against the local model; the application does not send microphone audio to a cloud service.

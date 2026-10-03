@@ -1,0 +1,7 @@
+{
+  "fixture": "Official Vosk example/test.wav",
+  "network_calls": "blocked by test",
+  "recognized": "one zero zero zero one nah no to i know zero one eight zero three",
+  "elapsed_including_model_load_seconds": 1.193028153000114,
+  "audio_seconds": 8.308
+}
