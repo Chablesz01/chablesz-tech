@@ -4,7 +4,7 @@ Unicode true
 !include "WinVer.nsh"
 !include "x64.nsh"
 Name "ChableszShow Voice & Camera v17"
-OutFile "../artifacts/ChableszShow-Voice-Camera-v17.exe"
+OutFile "..\artifacts\ChableszShow-Voice-Camera-v17.exe"
 InstallDir "$LOCALAPPDATA\ChableszShowVoiceCamera\v17"
 RequestExecutionLevel user
 SetCompressor /SOLID lzma
@@ -31,7 +31,7 @@ Function .onInit
 FunctionEnd
 Section "ChableszShow"
   SetOutPath "$INSTDIR"
-  File /r "../payload/*"
+  File /r "..\payload\*"
   DetailPrint "Installing the included Microsoft WebView2 runtime. No setup downloads are required."
   ExecWait '$\"$INSTDIR\prerequisites\MicrosoftEdgeWebView2RuntimeInstallerX64.exe$\" /silent /install' $0
   ; An existing runtime can return an already-installed exit code; verify the registry instead.
