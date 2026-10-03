@@ -22,10 +22,11 @@ jobs:
           choco install nsis --version=3.11 -y --no-progress
           if ($LASTEXITCODE -ne 0) { throw 'NSIS installation failed' }
       - name: Compile installer
+        working-directory: packaging
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Force artifacts | Out-Null
-          & 'C:\Program Files (x86)\NSIS\makensis.exe' packaging/installer.nsi
+          New-Item -ItemType Directory -Force ../artifacts | Out-Null
+          & 'C:\Program Files (x86)\NSIS\makensis.exe' installer.nsi
           if ($LASTEXITCODE -ne 0) { throw 'Installer compilation failed' }
       - name: Scan and test on Windows
         shell: pwsh
